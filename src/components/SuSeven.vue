@@ -44,7 +44,7 @@ const initScence = () => {
   //   灯光
   const ambientLight = new THREE.AmbientLight(0xffffff, 2);
   scene.add(ambientLight);
-  
+
   const light = new THREE.SpotLight("#ffffff", 20);
   light.angle = Math.PI / 2;
   light.penumbra = 0;
