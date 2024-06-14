@@ -11,6 +11,7 @@ import { reactive, onMounted } from "vue";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { RectAreaLightHelper } from "three/addons/helpers/RectAreaLightHelper.js";
+import Tween from "@tweenjs/tween.js";
 
 import SU7 from "../assets/SU7.glb";
 import cizhuan from "../assets/瓷砖.jpg";
@@ -23,7 +24,11 @@ const initScence = () => {
     0.1,
     1000
   );
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({
+    canvas: window.canvas,
+    antialias: true,
+    precision: "highp",
+  });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
@@ -69,7 +74,6 @@ const initScence = () => {
   const rectLightHelper = new RectAreaLightHelper(rectLight);
   scene.add(rectLightHelper);
 
-
   //地板
   let textureLoader = new THREE.TextureLoader();
   let texture = textureLoader.load(cizhuan);
@@ -92,12 +96,14 @@ const initScence = () => {
   scene.add(floor);
 
   camera.position.z = 5;
+  camera.position.y = 2;
 
-  const animate = () => {
+  const animate = (time) => {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
+    controls.update()
+    Tween.update(time);
   };
-
   animate();
 };
 
